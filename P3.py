@@ -23,14 +23,18 @@ f.close()
 price = compile(r"""
                      \$              # Start of a valid price signified by dollar sign
                                      # First capturing group:
-                     ([1-9]\d*)      #   Price must start with a non-zero digit, followed optionally by other digits
+                     ([1-9]\d{1,2})
+
+                     ,?
+
+                     (\d{3})?    #   Price must start with a non-zero digit, followed optionally by other digits
                                      # Second capturing group:
                      (\.\d\d)?       #   The cent portion of the price is optional, one dot and two any digits match
                                      # Negative Lookahead:
-                     (?![\d.])       #   Reject the price if the cent portion has an extra digit or dot """, X)
+                     (?![\d.,])       #   Reject the price if the cent portion has an extra digit or dot """, X)
 
 valid_prices = price.findall(string)
-
+print(valid_prices)
 bucks = [price for price in valid_prices if not price[CENTS]]
 b = open(OUTPUT1, 'w')
 for price in bucks:
@@ -55,5 +59,5 @@ for price in misc:
     m.write(price[DOLLARS])
     m.write(price[CENTS])
     m.write(DELIM)
-m.close() 
+m.close()
 
