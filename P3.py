@@ -100,4 +100,3 @@ for price in misc:
     m.write(price[CENTS])
     m.write(DELIM)
 m.close()
-
